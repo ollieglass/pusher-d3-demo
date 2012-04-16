@@ -17,9 +17,10 @@ def handle_data(data):
 
 config = json.loads(open("config.json", 'r').read())
 
-pusher.app_id = config['pusher']['app_id']
-pusher.key = config['pusher']['key']
-pusher.secret = config['pusher']['secret']
+# prepare Pusher object
+pusher.app_id = config['pusher']['app_id'].encode('ascii')
+pusher.key = config['pusher']['key'].encode('ascii')
+pusher.secret = config['pusher']['secret'].encode('ascii')
 p = pusher.Pusher()
 
 print "Recording filter %s..." % config['track_list']
