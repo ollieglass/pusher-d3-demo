@@ -2,7 +2,7 @@
 
 Demo of a real-time updating chart in a web page.
 
-Data is pushed from a Python server to [Pusher](http://pusher.com/), recieved in the web page and rendered using[D3.js](http://mbostock.github.com/d3/).
+Data is pushed from a Python server to [Pusher](http://pusher.com/), recieved in the web page and rendered using [D3.js](http://mbostock.github.com/d3/).
 
 ## Usage
 
