@@ -27,6 +27,8 @@ You'll need a Twitter account and a registered app to get those keys. Now open c
 
 Finally, open index.html a browser and run twitter_stream_server.py
 
+![pusher-d3-demo screenshot](http://i.imgur.com/G9Iacl.png)
+
 ## Thanks
 
 Based on [Mike Bostock's](http://bost.ocks.org/mike) [d3 bar chart tutorial](http://mbostock.github.com/d3/tutorial/bar-2.html)
