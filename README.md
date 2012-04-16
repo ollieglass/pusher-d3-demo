@@ -6,7 +6,7 @@ Data is pushed from a Python server to [Pusher](http://pusher.com/), recieved in
 
 ## Usage
 
-Install the Tweepy and Pusher libraries (pip install tweepy, pip install pusher), and create a config.json file in the python folder with these fields:
+Install the [Tweepy](http://tweepy.github.com/) and [Pusher](https://github.com/pusher/pusher_client_python) libraries (pip install tweepy, pip install pusher), and create a config.json file in the python folder with these fields:
 
     {
         "username": "",
@@ -32,5 +32,3 @@ Finally, open index.html a browser and run twitter_stream_server.py
 ## Thanks
 
 Based on [Mike Bostock's](http://bost.ocks.org/mike) [d3 bar chart tutorial](http://mbostock.github.com/d3/tutorial/bar-2.html)
-
-Uses the [Tweepy](http://tweepy.github.com/) Twitter library.
