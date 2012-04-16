@@ -27,7 +27,7 @@ You'll need a Twitter account and a registered app to get those keys. Now open c
 
 Finally, open index.html a browser and run twitter_stream_server.py
 
-![pusher-d3-demo screenshot](http://i.imgur.com/G9Iacl.png)
+![pusher-d3-demo screenshot](http://i.imgur.com/YjcTil.png)
 
 ## Thanks
 
