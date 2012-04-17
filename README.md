@@ -4,7 +4,7 @@ Demo of a real-time updating chart in a web page.
 
 Data is pushed from a Python server to [Pusher](http://pusher.com/), recieved in the web page and rendered using [D3.js](http://mbostock.github.com/d3/).
 
-Live tracker showing Bieber tweets per second running at bieber.nixonmcinnes.co.uk
+Live tracker showing Bieber tweets per second running at http://bieber.nixonmcinnes.co.uk
 
 ## Usage
 
