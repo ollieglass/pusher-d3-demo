@@ -1,4 +1,6 @@
 import json
+import os
+import sys
 from pprint import pprint
 
 import tweepy
@@ -15,7 +17,7 @@ def handle_data(data):
             except Exception,e:
                 print e
 
-config = json.loads(open("config.json", 'r').read())
+config = json.loads(open(os.path.dirname(sys.argv[0]) + "/config.json", 'r').read())
 
 # prepare Pusher object
 pusher.app_id = config['pusher']['app_id'].encode('ascii')

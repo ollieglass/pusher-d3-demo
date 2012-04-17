@@ -1,112 +1,42 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <script src="http://js.pusher.com/1.11/pusher.min.js"></script>
-    <script src="d3.v2.js"></script>
-
+    
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <style type="text/css">
-    .chart rect {
-        fill: steelblue;
-        stroke: white;
-    }
+    body { padding-top: 60px; padding-bottom: 40px;}
+    .chart rect { fill: steelblue; stroke: white; }
+    .count { text-align: right; }
+    footer a { font-family:'Rockwell W01'; font-weight: bold; }
+    footer a:hover { text-decoration: none; }
+    footer a span.nixon { color: #D7E035; }
+    footer a span.mcinnes { color: #44A2BB; }
     </style>
 </head>
 
 <body>
-
-    <script>
-
-    // ====================================
-    // pusher
-    // ====================================
-
-    var pusher = new Pusher('7d0807c2a626b31b0a44'); // Replace with your app key
-    var channel = pusher.subscribe('my-channel');
-
-    var next_value = 0;
-    channel.bind('my-event', function(data) {
-        next_value++;
-    });
-
-    // ====================================
-    // d3 - static
-    // ====================================
-
-    var t = 1297110663, // start time (seconds since epoch)
-        v = 70, // start value (tweets)
-        data = d3.range(33).map(next); // starting dataset
-
-    var w = 20,
-        h = 80;
- 
-    var x = d3.scale.linear()
-        .domain([0, 1])
-        .range([0, w]);
-
-    var y = d3.scale.linear()
-        .domain([0, 30])
-        .rangeRound([0, h]);
-
-    var chart = d3.select("body").append("svg")
-        .attr("class", "chart")
-        .attr("width", w * data.length - 1)
-        .attr("height", h);
-
-    chart.selectAll("rect")
-        .data(data)
-        .enter().append("rect")
-        .attr("x", function(d, i) { return x(i) - .5; })
-        .attr("y", function(d) { return h - y(d.value) - .5; })
-        .attr("width", w)
-        .attr("height", function(d) { return y(d.value); });
-
-    chart.append("line")
-        .attr("x1", 0)
-        .attr("x2", w * data.length)
-        .attr("y1", h - .5)
-        .attr("y2", h - .5)
-        .style("stroke", "#000");
-
-    // ====================================
-    // d3 - animation
-    // ====================================
-
-    // returns next data object
-    function next() {
-        var result = { time: ++t, value: next_value };
-        next_value = 0;
-        return result;
-    }
-
-    setInterval(function() {
-        data.shift();
-        data.push(next());
-        redraw();
-    }, 1500);
-
-    function redraw() {
-        var rect = chart.selectAll("rect")
-            .data(data, function(d) { return d.time; });
-
-        rect.enter().insert("rect", "line")
-            .attr("x", function(d, i) { return x(i + 1) - .5; })
-            .attr("y", function(d) { return h - y(d.value) - .5; })
-            .attr("width", w)
-            .attr("height", function(d) { return y(d.value); })
-            .transition()
-            .duration(1000)
-            .attr("x", function(d, i) { return x(i) - .5; });
-
-        rect.transition()
-            .duration(1000)
-            .attr("x", function(d, i) { return x(i) - .5; });
-
-        rect.exit().transition()
-            .duration(1000)
-            .attr("x", function(d, i) { return x(i - 1) - .5; })
-            .remove();
-    }
-    </script>
-
+    <div class="container">
+      <div class="hero-unit">
+        <h1>Volume of Bieber Tweets <small>per 1.5 seconds</small></h1>
+      </div>
+      <div class="row">
+        <div class="span8 offset2" id="chart"></div>
+      </div>
+      <div class="row">
+        <div class="span2 offset8 count"><p><span class="current badge badge-info">0</span><span class="max badge badge-error">0</span></p></div>
+      </div>
+      
+      <footer class="footer">
+        Made with love by <a href="http://www.nixonmcinnes.co.uk"><span class="nixon">Nixon</span><span class="mcinnes">McInnes</span></a>
+      </footer>
+    </div>
+    
+    <script src="http://js.pusher.com/1.11/pusher.min.js"></script>
+    <script src="assets/vendor/d3.v2/d3.v2.js"></script>
+    <script src="assets/js/main.js"></script>
+    <!-- Only for NixMc domains -->
+    <script type="text/javascript" src="http://fast.fonts.com/jsapi/12fca918-c90d-45a0-af58-cfd35763b520.js"></script>
+    
 </body>
 
 </html>
