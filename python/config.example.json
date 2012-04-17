@@ -1,0 +1,15 @@
+{
+    "username": "",
+    "password": "",
+    "consumer_key": "",
+    "consumer_secret": "",
+    "access_key": "",
+    "access_secret": "",
+    "track_list": "bieber",
+    "pusher": {
+        "app_id": "",
+        "key": "",
+        "secret": ""
+    },
+    "email": ""
+}

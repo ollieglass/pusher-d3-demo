@@ -1,6 +1,7 @@
 import ssl
 import httplib
 import tweepy
+import smtplib
 
 def try_and_catch_errors(func):
     err_count = 0
@@ -18,6 +19,9 @@ def try_and_catch_errors(func):
         time.sleep(5)
 
     print "5 errors, quitting"
+    s = smtplib.SMTP('localhost')
+    s.sendmail("tweepy_helper@nixonmcinnes.co.uk", config['email'], "UH OH! The pusher app is down")
+    s.quit()
     exit()
 
 def stream(stream_type, config, handle_data):
