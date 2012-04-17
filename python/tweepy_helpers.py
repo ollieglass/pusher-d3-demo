@@ -20,20 +20,20 @@ def try_and_catch_errors(func):
 
     print "5 errors, quitting"
     s = smtplib.SMTP('localhost')
-    s.sendmail("tweepy_helper@nixonmcinnes.co.uk", config['email'], "UH OH! The pusher app is down")
+    s.sendmail(config['error_email']['from'], config['error_email']['to'], "UH OH! The pusher app is down")
     s.quit()
     exit()
 
 def stream(stream_type, config, handle_data):
     if stream_type == 'userstream':
-        auth = get_oauth(config)
+        auth = get_oauth(config['twitter_auth'])
         stream = tweepy.Stream(auth, StreamHandler(handle_data), secure=True)
         try_and_catch_errors(stream.userstream)
 
     if stream_type == 'filter':
-        auth = tweepy.BasicAuthHandler(config['username'], config['password'])
+        auth = tweepy.BasicAuthHandler(config['twitter_auth']['username'], config['twitter_auth']['password'])
         stream = tweepy.Stream(auth, StreamHandler(handle_data))
-        try_and_catch_errors(stream.filter(track=config['track_list']))
+        try_and_catch_errors(stream.filter(track=config['search_terms']))
 
 def get_oauth(config):
     auth = tweepy.OAuthHandler(config['consumer_key'], config['consumer_secret'])

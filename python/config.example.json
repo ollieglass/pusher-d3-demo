@@ -1,15 +1,20 @@
 {
-    "username": "",
-    "password": "",
-    "consumer_key": "",
-    "consumer_secret": "",
-    "access_key": "",
-    "access_secret": "",
-    "track_list": "bieber",
+    "search_terms": "bieber",
+    "twitter_auth": {
+        "username": "",
+        "password": "",
+        "consumer_key": "",
+        "consumer_secret": "",
+        "access_key": "",
+        "access_secret": ""
+    },
     "pusher": {
         "app_id": "",
         "key": "",
         "secret": ""
     },
-    "email": ""
+    "error_email": {
+        "from": "",
+        "to": ""
+    }
 }
