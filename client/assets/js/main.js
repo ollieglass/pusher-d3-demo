@@ -83,7 +83,7 @@ setInterval(function() {
     data.push(next());
     maxValue();
     redraw();
-}, 1500);
+}, 1000);
 
 function redraw() {
     var rect = chart.selectAll("rect")
