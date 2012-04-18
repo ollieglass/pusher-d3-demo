@@ -2,8 +2,9 @@
 // pusher
 // ====================================
 
-var pusher = new Pusher('f528ced7bacc3e5920f3'); // Replace with your app key
-var channel = pusher.subscribe('my-channel');
+var pusher = new Pusher('f528ced7bacc3e5920f3'), // Replace with your app key
+  channel = pusher.subscribe('my-channel'),
+  allTimeMax = 0;
 
 var next_value = 0;
 channel.bind('my-event', function(data) {
@@ -20,7 +21,7 @@ var t = 1297110663, // start time (seconds since epoch)
     data = d3.range(31).map(next); // starting dataset
 
 var w = 20,
-    h = 80;
+    h = 160;
 
 var x = d3.scale.linear()
     .domain([0, 1])
@@ -67,13 +68,14 @@ function maxValue(){
   max_value = 0;
   for(var x = 0; x < data.length; x = x + 1){
     max_value = data[x].value > max_value ? data[x].value : max_value;
+    allTimeMax = max_value > allTimeMax ? max_value : allTimeMax;
   }
   
   y = d3.scale.linear()
       .domain([0, max_value])
       .rangeRound([0, h]);
   
-  d3.select('div.count p span.max').html(max_value);
+  d3.select('div.count p span.max').html(allTimeMax);
 }
 
 setInterval(function() {
@@ -81,7 +83,7 @@ setInterval(function() {
     data.push(next());
     maxValue();
     redraw();
-}, 1500);
+}, 1000);
 
 function redraw() {
     var rect = chart.selectAll("rect")
