@@ -15,6 +15,9 @@ def try_and_catch_errors(func):
         except ssl.SSLError, e:
             print e
             err_count += 1
+        except (KeyboardInterrupt, SystemExit), e:
+            print e
+            raise
 
         time.sleep(5)
 

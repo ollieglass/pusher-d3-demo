@@ -1,23 +1,29 @@
+var next_value = 0;
+var t = 1297110663; // start time (seconds since epoch)
+var v = 70, // start value (tweets),
+    data = [],
+    data = d3.range(31).map(next), // starting dataset,
+    pusher_key = 'c9f5043738b6f7e428fa'; // Replace with your app key
+
 // ====================================
 // pusher
 // ====================================
 
-var pusher = new Pusher('f528ced7bacc3e5920f3'); // Replace with your app key
+var pusher = new Pusher(pusher_key); 
 var channel = pusher.subscribe('my-channel');
 
-var next_value = 0;
-channel.bind('my-event', function(data) {
-    next_value++;
+channel.bind('my-event', function(update) {
+    next_value+=parseInt(update.tweet_count, 10);
+  
+    data.shift();
+    data.push(next());
+    maxValue();
+    redraw();
 });
 
 // ====================================
 // d3 - static
 // ====================================
-
-var t = 1297110663, // start time (seconds since epoch)
-    v = 70, // start value (tweets),
-    data = [],
-    data = d3.range(31).map(next); // starting dataset
 
 var w = 20,
     h = 80;
@@ -75,13 +81,6 @@ function maxValue(){
   
   d3.select('div.count p span.max').html(max_value);
 }
-
-setInterval(function() {
-    data.shift();
-    data.push(next());
-    maxValue();
-    redraw();
-}, 1500);
 
 function redraw() {
     var rect = chart.selectAll("rect")
