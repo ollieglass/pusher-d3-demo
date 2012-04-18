@@ -64,7 +64,7 @@ class StreamHandler(tweepy.StreamListener):
 
     def on_timeout(self):
         print 'Timeout'
-        stream.disconnect()
+        self.stream.disconnect()
         exit()
 
     def on_delete(self, status_id, user_id):

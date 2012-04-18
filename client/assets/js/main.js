@@ -3,7 +3,7 @@ var t = 1297110663; // start time (seconds since epoch)
 var v = 70, // start value (tweets),
     data = [],
     data = d3.range(31).map(next), // starting dataset,
-    pusher_key = '18734'; // Replace with your app key
+    pusher_key = '7d0807c2a626b31b0a44'; // Replace with your app key
 
 // ====================================
 // pusher
@@ -14,13 +14,15 @@ var pusher = new Pusher(pusher_key),
   allTimeMax = 0;
 
 channel.bind('my-event', function(update) {
-    next_value+=parseInt(update.tweet_count, 10);
-  
+    next_value++;
+});
+
+setInterval(function() {
     data.shift();
     data.push(next());
     maxValue();
     redraw();
-});
+}, 1000);
 
 // ====================================
 // d3 - static
@@ -94,17 +96,17 @@ function redraw() {
         .attr("width", w)
         .attr("height", function(d) { return y(d.value); })
         .transition()
-        .duration(1000)
+        .duration(800)
         .attr("x", function(d, i) { return x(i) - .5; });
 
     rect.transition()
-        .duration(1000)
+        .duration(800)
         .attr("x", function(d, i) { return x(i) - .5; })
         .attr("y", function(d) { return h - y(d.value) - .5; })
         .attr("height", function(d) { return y(d.value); });
 
     rect.exit().transition()
-        .duration(1000)
+        .duration(800)
         .attr("x", function(d, i) { return x(i - 1) - .5; })
         .remove();
 }
