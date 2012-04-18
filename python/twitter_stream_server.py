@@ -11,13 +11,27 @@ import tweepy_helpers
 
 import pusher
 
-def handle_data(data):
-    global tweet_count
+count = 0
 
+def handle_data(data):
+    global count
+    
     try:
-        p['my-channel'].trigger('my-event', 1)
+        count = count + 1
     except Exception,e:
         print e
+
+def send_data():
+    global count
+    try:
+        print "Sending: " + str(count)
+        p['my-channel'].trigger('my-event', {'count': count})
+    except Exception,e:
+        print e
+
+    count = 0
+
+    Timer(1.0, send_data).start()
 
 config_path = os.path.dirname(sys.argv[0]) + "/config.json"
 # config_path = "config.json"
@@ -31,4 +45,5 @@ pusher.secret = config['pusher']['secret'].encode('ascii')
 p = pusher.Pusher()
 
 print "Recording filter %s..." % config['search_terms']
+thread = Timer(1.0, send_data).start()
 tweepy_helpers.stream('filter', config, handle_data)
