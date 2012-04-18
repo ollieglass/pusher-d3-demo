@@ -25,7 +25,7 @@ pusher.key = config['pusher']['key'].encode('ascii')
 pusher.secret = config['pusher']['secret'].encode('ascii')
 p = pusher.Pusher()
 
-print "Recording filter %s..." % config['track_list']
+print "Recording filter %s..." % config['search_terms']
 tweepy_helpers.stream('filter', config, handle_data)
 
 
