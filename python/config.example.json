@@ -1,5 +1,6 @@
 {
     "search_terms": "bieber",
+    "update_interval_secs": 1,    
     "twitter_auth": {
         "username": "",
         "password": "",
