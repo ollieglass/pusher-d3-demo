@@ -1,28 +1,52 @@
-var next_value = 0;
-var t = 1297110663; // start time (seconds since epoch)
-var v = 70, // start value (tweets),
-    data = [],
-    data = d3.range(31).map(next), // starting dataset,
-    pusher_key = '7d0807c2a626b31b0a44'; // Replace with your app key
+var next_value = 0,
+  t = 1297110663, // start time (seconds since epoch)
+  v = 70, // start value (tweets),
+  data = [],
+  data = d3.range(31).map(function(){ return { time: t, value: 0 }; }), // starting dataset,
+  pusher_key = 'f528ced7bacc3e5920f3', // Replace with your app key
+  currentMaxValue = 0,
+  allTimeMaxValue = 0,
 
 // ====================================
 // pusher
 // ====================================
 
-var pusher = new Pusher(pusher_key),
-  channel = pusher.subscribe('my-channel'),
-  allTimeMax = 0;
+  pusher = new Pusher(pusher_key),
+  channel = pusher.subscribe('my-channel');
 
 channel.bind('my-event', function(update) {
-    next_value++;
+  data.shift();
+  data.push(updateNextValue(update.count));
+  updateMaxValue(update.count);
+  redraw();
 });
 
-setInterval(function() {
-    data.shift();
-    data.push(next());
-    maxValue();
-    redraw();
-}, 1000);
+// ====================================
+// general - called when we recieve data from pusher
+// ====================================
+
+function updateNextValue(value) {
+    var result = { time: ++t, value: value };
+    d3.select('div.count p span.current').html(value);
+    return result;
+}
+
+function updateMaxValue(value){
+  currentMaxValue = 0;
+  for(var x = 0; x < data.length; x = x + 1){
+    currentMaxValue = data[x].value > currentMaxValue ? data[x].value : currentMaxValue;
+  }
+  
+  allTimeMaxValue = currentMaxValue > allTimeMaxValue ? currentMaxValue : allTimeMaxValue;
+  
+  // update the scale of the chart according to our current max value
+  y = d3.scale.linear()
+      .domain([0, currentMaxValue])
+      .rangeRound([0, h]);
+  
+  d3.select('div.count p span.max').html(allTimeMaxValue);
+}
+
 
 // ====================================
 // d3 - static
@@ -35,9 +59,8 @@ var x = d3.scale.linear()
     .domain([0, 1])
     .range([0, w]);
 
-var max_value = 0;
 var y = d3.scale.linear()
-    .domain([0, max_value])
+    .domain([0, currentMaxValue])
     .rangeRound([0, h]);
 
 var chart = d3.select("div#chart").append("svg")
@@ -61,30 +84,8 @@ chart.append("line")
     .style("stroke", "#000");
 
 // ====================================
-// d3 - animation
+// d3 - update the chart
 // ====================================
-
-// returns next data object
-function next() {
-    var result = { time: ++t, value: next_value };
-    d3.select('div.count p span.current').html(next_value);
-    next_value = 0;
-    return result;
-}
-
-function maxValue(){
-  max_value = 0;
-  for(var x = 0; x < data.length; x = x + 1){
-    max_value = data[x].value > max_value ? data[x].value : max_value;
-    allTimeMax = max_value > allTimeMax ? max_value : allTimeMax;
-  }
-  
-  y = d3.scale.linear()
-      .domain([0, max_value])
-      .rangeRound([0, h]);
-  
-  d3.select('div.count p span.max').html(allTimeMax);
-}
 
 function redraw() {
     var rect = chart.selectAll("rect")
