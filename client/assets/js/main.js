@@ -22,7 +22,7 @@ channel.bind('my-event', function(update) {
 });
 
 // ====================================
-// general - called when we recieve data from pusher
+// general - called when we receive data from Pusher
 // ====================================
 
 function updateNextValue(value) {
@@ -70,7 +70,7 @@ var chart = d3.select("div#chart").append("svg")
 
 chart.selectAll("rect")
     .data(data)
-    .enter().append("rect")
+  .enter().append("rect")
     .attr("x", function(d, i) { return x(i) - .5; })
     .attr("y", function(d) { return h - y(d.value) - .5; })
     .attr("width", w)
