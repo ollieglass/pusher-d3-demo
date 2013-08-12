@@ -34,7 +34,7 @@ def stream(stream_type, config, handle_data):
         try_and_catch_errors(stream.userstream)
 
     if stream_type == 'filter':
-        auth = tweepy.BasicAuthHandler(config['twitter_auth']['username'], config['twitter_auth']['password'])
+        auth = get_oauth(config['twitter_auth'])
         stream = tweepy.Stream(auth, StreamHandler(handle_data))
         try_and_catch_errors(stream.filter(track=config['search_terms']))
 
